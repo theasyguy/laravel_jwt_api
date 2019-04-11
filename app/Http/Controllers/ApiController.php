@@ -11,6 +11,9 @@ class ApiController extends Controller
 {
     public $loginAfterSignUp = true;
 
+//    Accept RegisterAuthRequest. A user is created with the data present in the request.
+// If the loginAfterSignUp property is true, it will log-in the user by calling the login method after registering.
+// Otherwise, a successful response is returned with the user data.
 
     public function register(RegisterAuthRequest $request)
     {
@@ -30,7 +33,10 @@ class ApiController extends Controller
         ], 200);
     }
 
-
+//get a subset of the request only containing email and password.
+// JWTAuth::attempt() is called with input as the argument and the response is saved in a variable.
+// If false is returned from the attempt method, we return a failure response.
+// Otherwise, a success response is returned.
     public function login(Request $request)
     {
         $input = $request->only('email', 'password');
@@ -49,6 +55,9 @@ class ApiController extends Controller
         ]);
     }
 
+//    the request is validated that it contains the token field.
+// The token is invalidated by calling the invalidate method and a successful response is returned.
+// If the JWTException exception caught, a failure response is returned.
     public function logout(Request $request)
     {
         $this->validate($request, [
@@ -71,7 +80,9 @@ class ApiController extends Controller
     }
 
 
-
+//the request is validated that it contains the token field.
+// Then the authenticate method is called which returns the authenticated user.
+// Finally, the response with the user is returned.
     public function getAuthUser(Request $request)
     {
         $this->validate($request, [
